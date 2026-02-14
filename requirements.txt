@@ -1,0 +1,10 @@
+# Core dependencies
+sentence-transformers>=2.2.2
+faiss-cpu>=1.7.4
+openai>=1.10.0
+python-dotenv>=1.0.0
+numpy>=1.24.0
+
+# Optional
+pypdf>=3.17.0
+jupyter>=1.0.0
