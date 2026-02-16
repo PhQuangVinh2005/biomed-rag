@@ -9,7 +9,6 @@ Members:
 - Nguyen Vu Hong Ngoc
 - Le Chi Thanh Lam
 
-
 ## Project Structure
 
 ```
@@ -42,24 +41,21 @@ biomedical-rag/
 
 ├── data/
 
-│   ├── CDR_Data/             # BC5CDR (existing)
+│   ├── bc5cdr/               # BC5CDR 
 
 │   ├── chemdis_gene/         # ChemDisGene
 
-│   ├── ctd/                  # CTD exports
-
-│   └── processed/            # Unified text docs
+│   └── ctd/                  # CTD (original or not, if available)
 
 ├── requirements.txt
 
 └── notebooks/
 
-    └── demo.ipynb
+    └── {}demo.ipynb
 
 ```
 
 ---
-
 
 ## Installation & Setup
 
