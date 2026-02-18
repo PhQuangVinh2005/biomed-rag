@@ -1,6 +1,6 @@
 This repo is created for the Final Project Presentation of the NLP course in USTH
 
-Members:
+## Members:
 
 - Pham Quang Vinh
 - Hoang Khanh Dong
@@ -11,48 +11,27 @@ Members:
 
 ## Project Structure
 
-```
-
-biomedical-rag/
-
-├── config.py                 # Model, paths, entity types
-
-├── preprocess.py             # Multi-source → unified docs
-
-├── index.py                  # Build LightRAG KG + vectors
-
-├── query.py                  # QA interface (CLI)
-
-├── evaluate.py               # RAGAS + CID gold evaluation
-
-├── finetune/                 # (Optional) QLoRA fine-tuning
-
-│   ├── prepare_data.py       # BC5CDR → instruction-tuning format
-
-│   ├── train_qlora.py        # QLoRA training script
-
-│   └── export_ollama.py      # Convert to GGUF → Ollama
-
-├── experiments/              # Ablation & comparison results
-
-│   ├── run_ablation.py       # Compare modes, data sources
-
-│   └── results/              # Saved metrics & plots
-
-├── data/
-
-│   ├── bc5cdr/               # BC5CDR 
-
-│   ├── chemdis_gene/         # ChemDisGene
-
-│   └── ctd/                  # CTD (original or not, if available)
-
-├── requirements.txt
-
-└── notebooks/
-
-    └── {}demo.ipynb
-
+```bash
+nlp-project/
+├── module/       
+│   ├── RAG_pipeline/         # RAG components (chunking, embeddings, retrieval, generation)
+│   └── data_processing/  
+│       ├── bc5cdr.py         # BC5CDR parser
+│       ├── ctd.py            # CTD parser
+│       └── pubtator.py       # PubTator/ChemDisGene parser
+├── notebooks/      
+│   ├── processing_demo/  
+│       ├── bc5cdr_processing.ipynb
+│       └── chemdisgene_processing.ipynb
+│   └── rag_demo/       
+│       ├── retrieve_test_result.ipynb
+│       └── sample_rag_run.ipynb
+├── experiments/              # Experiments
+├── finetune/                 # Fine-tuning
+├── set_up_dataset.py         # Script to download datasets
+├── main.py  
+├── requirements.txt  
+└── plan.md     
 ```
 
 ---
@@ -62,14 +41,14 @@ biomedical-rag/
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/GinHikat/https://github.com/PhQuangVinh2005/nlp-project.git
+git clone https://github.com/PhQuangVinh2005/nlp-project.git
 cd nlp-project
 ```
 
 ### 2. Install Dependencies
 
 ```bash
-pip install -r requirement.txt
+pip install -r requirements.txt
 ```
 
 ### 3. Environment Configuration
@@ -82,10 +61,30 @@ cp .env.example .env
 
 ### 4. Data Preparation
 
-Run the setup script to download and structure the dataset:
+Run the setup script to download and structure the dataset from HuggingFace (`zinzinmit/MedNLPCombined`). This will download BC5CDR, ChemDisGene, and CTD datasets into the `data/external` directory.
+
+Note that the HF_Token can be found in the .env file
 
 ```bash
+$env:HUGGINGFACE_HUB_TOKEN="hf_xxxxxxxxxxxxxxx"
+
 python set_up_dataset.py
 ```
 
 ---
+
+## Usage & Tutorials
+
+### Data Processing Tutorials
+
+Explore how to load and process the biomedical datasets in the `notebooks/processing_demo/` directory:
+
+- **BC5CDR**: `notebooks/processing_demo/bc5cdr_processing.ipynb`
+- **ChemDisGene**: `notebooks/processing_demo/chemdisgene_processing.ipynb`
+
+### RAG Pipeline Demos
+
+See the RAG pipeline in action in the `notebooks/rag_demo/` directory:
+
+- **Pipeline Retrieval Test**: `notebooks/rag_demo/retrieve_test_result.ipynb`
+- **Full RAG Run**: `notebooks/rag_demo/sample_rag_run.ipynb`

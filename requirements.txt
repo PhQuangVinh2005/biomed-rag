@@ -3,6 +3,7 @@ numpy
 matplotlib 
 seaborn 
 python-dotenv
+huggingface_hub
 
 langgraph 
 faiss-cpu 
@@ -20,8 +21,4 @@ mlflow
 pypdf
 ragas
 
-wandb
-rouge-score
-requests
-absl-py
 
