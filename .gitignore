@@ -1,0 +1,13 @@
+__pycache__/
+
+data/
+
+.gitattributes
+
+.ipynb_checkpoints/
+
+*.pdf
+
+*.png
+
+.env
