@@ -66,8 +66,8 @@ biomedical-rag/
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/GinHikat/https://github.com/PhQuangVinh2005/nlp-project.git
-cd nlp-project
+git clone https://github.com/GinHikat/https://github.com/PhQuangVinh2005/biomed-rag.git
+cd biomed-rag
 ```
 
 ### 2. Install Dependencies
