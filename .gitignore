@@ -1,6 +1,9 @@
 __pycache__/
 
 data/
+!data/
+data/*
+!data/README.md
 
 .gitattributes
 
