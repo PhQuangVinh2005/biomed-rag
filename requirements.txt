@@ -20,5 +20,5 @@ docling
 mlflow 
 pypdf
 gspread
-
+vllm
 
