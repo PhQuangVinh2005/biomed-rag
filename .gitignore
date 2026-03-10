@@ -20,3 +20,5 @@ data/*
 ggsheet_credentials.json
 
 *.db
+
+*.json
