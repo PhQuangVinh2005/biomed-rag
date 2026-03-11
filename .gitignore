@@ -22,3 +22,8 @@ ggsheet_credentials.json
 *.db
 
 *.json
+*.log
+
+logs/
+
+*rag_storage/*

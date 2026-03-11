@@ -16,8 +16,8 @@ EMBED_API_KEY  = os.getenv("EMBEDDING_BINDING_API_KEY", "none")
 
 LLM_MODEL   = os.getenv("LLM_MODEL",        "BioMistral/BioMistral-7B-AWQ-QGS128-W4-GEMM")
 EMBED_MODEL = os.getenv("EMBEDDING_MODEL",  "nomic-ai/nomic-embed-text-v1.5")
-EMBED_DIM   = 768   # nomic-embed-text-v1.5 output dimension
-EMBED_MAX_TOKENS = 512
+EMBED_DIM   = int(os.getenv("EMBEDDING_DIM", "768"))
+EMBED_MAX_TOKENS = int(os.getenv("EMBEDDING_MAX_TOKENS", "512"))
 
 WORKING_DIR = os.getenv(
     "LIGHTRAG_WORKING_DIR",

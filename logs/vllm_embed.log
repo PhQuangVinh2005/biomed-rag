@@ -1,80 +1,0 @@
-(APIServer pid=8649) INFO 03-11 01:14:07 [utils.py:302] 
-(APIServer pid=8649) INFO 03-11 01:14:07 [utils.py:302]        █     █     █▄   ▄█
-(APIServer pid=8649) INFO 03-11 01:14:07 [utils.py:302]  ▄▄ ▄█ █     █     █ ▀▄▀ █  version 0.17.0
-(APIServer pid=8649) INFO 03-11 01:14:07 [utils.py:302]   █▄█▀ █     █     █     █  model   nomic-ai/nomic-embed-text-v1.5
-(APIServer pid=8649) INFO 03-11 01:14:07 [utils.py:302]    ▀▀  ▀▀▀▀▀ ▀▀▀▀▀ ▀     ▀
-(APIServer pid=8649) INFO 03-11 01:14:07 [utils.py:302] 
-(APIServer pid=8649) INFO 03-11 01:14:07 [utils.py:238] non-default args: {'host': '0.0.0.0', 'port': 8081, 'model': 'nomic-ai/nomic-embed-text-v1.5', 'runner': 'pooling', 'trust_remote_code': True, 'gpu_memory_utilization': 0.15}
-(APIServer pid=8649) The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
-(APIServer pid=8649) The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
-(APIServer pid=8649) WARNING 03-11 01:14:13 [utils.py:137] NomicBertConfig contains a deprecated attribute name 'rotary_emb_base'. Please use the preferred attribute name 'rope_theta' instead.
-(APIServer pid=8649) WARNING 03-11 01:14:13 [utils.py:137] NomicBertConfig contains a deprecated attribute name 'rotary_emb_fraction'. Please use the preferred attribute name 'partial_rotary_factor' instead.
-(APIServer pid=8649) INFO 03-11 01:14:13 [config.py:882] Found sentence-transformers tokenize configuration.
-(APIServer pid=8649) INFO 03-11 01:14:13 [model.py:856] Resolved `--convert auto` to `--convert embed`. Pass the value explicitly to silence this message.
-(APIServer pid=8649) INFO 03-11 01:14:13 [model.py:531] Resolved architecture: NomicBertModel
-(APIServer pid=8649) INFO 03-11 01:14:13 [config.py:770] Found sentence-transformers modules configuration.
-(APIServer pid=8649) INFO 03-11 01:14:13 [config.py:797] Found pooling configuration.
-(APIServer pid=8649) INFO 03-11 01:14:13 [model.py:1889] Downcasting torch.float32 to torch.float16.
-(APIServer pid=8649) INFO 03-11 01:14:13 [model.py:1554] Using max model len 8192
-(APIServer pid=8649) INFO 03-11 01:14:13 [model.py:1554] Using max model len 2048
-(APIServer pid=8649) WARNING 03-11 01:14:13 [config.py:212] Nomic context extension is disabled. Changing max_model_len from 8192 to 2048. To enable context extension, see: https://github.com/vllm-project/vllm/tree/main/examples/offline_inference/context_extension.py
-(APIServer pid=8649) INFO 03-11 01:14:13 [vllm.py:747] Asynchronous scheduling is enabled.
-(APIServer pid=8649) WARNING 03-11 01:14:14 [vllm.py:909] Pooling models do not support full cudagraphs. Overriding cudagraph_mode to PIECEWISE.
-(APIServer pid=8649) The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
-(APIServer pid=8649) WARNING 03-11 01:14:19 [interface.py:472] Using 'pin_memory=False' as WSL is detected. This may slow down the performance.
-(EngineCore_DP0 pid=9090) INFO 03-11 01:14:23 [core.py:101] Initializing a V1 LLM engine (v0.17.0) with config: model='nomic-ai/nomic-embed-text-v1.5', speculative_config=None, tokenizer='nomic-ai/nomic-embed-text-v1.5', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=True, dtype=torch.float16, max_seq_len=2048, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, enable_return_routed_experts=False, kv_cache_dtype=auto, device_config=cuda, structured_outputs_config=StructuredOutputsConfig(backend='auto', disable_fallback=False, disable_any_whitespace=False, disable_additional_properties=False, reasoning_parser='', reasoning_parser_plugin='', enable_in_reasoning=False), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None, kv_cache_metrics=False, kv_cache_metrics_sample=0.01, cudagraph_metrics=False, enable_layerwise_nvtx_tracing=False, enable_mfu_metrics=False, enable_mm_processor_stats=False, enable_logging_iteration_details=False), seed=0, served_model_name=nomic-ai/nomic-embed-text-v1.5, enable_prefix_caching=False, enable_chunked_prefill=False, pooler_config=PoolerConfig(pooling_type=None, seq_pooling_type='MEAN', tok_pooling_type='ALL', use_activation=False, dimensions=None, enable_chunked_processing=False, max_embed_len=None, logit_bias=None, step_tag_id=None, returned_token_ids=None), compilation_config={'level': None, 'mode': <CompilationMode.VLLM_COMPILE: 3>, 'debug_dump_path': None, 'cache_dir': '', 'compile_cache_save_format': 'binary', 'backend': 'inductor', 'custom_ops': ['none'], 'splitting_ops': ['vllm::unified_attention', 'vllm::unified_attention_with_output', 'vllm::unified_mla_attention', 'vllm::unified_mla_attention_with_output', 'vllm::mamba_mixer2', 'vllm::mamba_mixer', 'vllm::short_conv', 'vllm::linear_attention', 'vllm::plamo2_mamba_mixer', 'vllm::gdn_attention_core', 'vllm::kda_attention', 'vllm::sparse_attn_indexer', 'vllm::rocm_aiter_sparse_attn_indexer', 'vllm::unified_kv_cache_update', 'vllm::unified_mla_kv_cache_update'], 'compile_mm_encoder': False, 'compile_sizes': [], 'compile_ranges_split_points': [2048], 'inductor_compile_config': {'enable_auto_functionalized_v2': False, 'combo_kernels': True, 'benchmark_combo_kernel': True}, 'inductor_passes': {}, 'cudagraph_mode': <CUDAGraphMode.PIECEWISE: 1>, 'cudagraph_num_of_warmups': 1, 'cudagraph_capture_sizes': [1, 2, 4, 8, 16, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96, 104, 112, 120, 128, 136, 144, 152, 160, 168, 176, 184, 192, 200, 208, 216, 224, 232, 240, 248, 256, 272, 288, 304, 320, 336, 352, 368, 384, 400, 416, 432, 448, 464, 480, 496, 512], 'cudagraph_copy_inputs': False, 'cudagraph_specialize_lora': True, 'use_inductor_graph_partition': False, 'pass_config': {'fuse_norm_quant': False, 'fuse_act_quant': False, 'fuse_attn_quant': False, 'enable_sp': False, 'fuse_gemm_comms': False, 'fuse_allreduce_rms': False}, 'max_cudagraph_capture_size': 512, 'dynamic_shapes_config': {'type': <DynamicShapesType.BACKED: 'backed'>, 'evaluate_guards': False, 'assume_32_bit_indexing': False}, 'local_cache_dir': None, 'fast_moe_cold_start': True, 'static_all_moe_layers': []}
-(EngineCore_DP0 pid=9090) WARNING 03-11 01:14:23 [interface.py:472] Using 'pin_memory=False' as WSL is detected. This may slow down the performance.
-(EngineCore_DP0 pid=9090) INFO 03-11 01:14:24 [parallel_state.py:1393] world_size=1 rank=0 local_rank=0 distributed_init_method=tcp://172.27.171.63:60393 backend=nccl
-(EngineCore_DP0 pid=9090) INFO 03-11 01:14:24 [parallel_state.py:1715] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, PCP rank 0, TP rank 0, EP rank N/A, EPLB rank N/A
-(EngineCore_DP0 pid=9090) INFO 03-11 01:14:24 [base.py:106] Offloader set to NoopOffloader
-(EngineCore_DP0 pid=9090) INFO 03-11 01:14:24 [gpu_model_runner.py:4255] Starting to load model nomic-ai/nomic-embed-text-v1.5...
-(EngineCore_DP0 pid=9090) INFO 03-11 01:14:24 [cuda.py:405] Using FLASH_ATTN attention backend out of potential backends: ['FLASH_ATTN', 'TRITON_ATTN', 'FLEX_ATTENTION'].
-(EngineCore_DP0 pid=9090) INFO 03-11 01:14:24 [flash_attn.py:587] Using FlashAttention version 2
-(EngineCore_DP0 pid=9090) <frozen importlib._bootstrap_external>:1241: FutureWarning: The cuda.cudart module is deprecated and will be removed in a future release, please switch to use the cuda.bindings.runtime module instead.
-(EngineCore_DP0 pid=9090) <frozen importlib._bootstrap_external>:1241: FutureWarning: The cuda.nvrtc module is deprecated and will be removed in a future release, please switch to use the cuda.bindings.nvrtc module instead.
-(EngineCore_DP0 pid=9090) INFO 03-11 01:14:26 [weight_utils.py:601] No model.safetensors.index.json found in remote.
-(EngineCore_DP0 pid=9090) Loading safetensors checkpoint shards:   0% Completed | 0/1 [00:00<?, ?it/s]
-(EngineCore_DP0 pid=9090) Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:00<00:00, 32.78it/s]
-(EngineCore_DP0 pid=9090) 
-(EngineCore_DP0 pid=9090) INFO 03-11 01:14:27 [default_loader.py:293] Loading weights took 0.31 seconds
-(EngineCore_DP0 pid=9090) INFO 03-11 01:14:27 [gpu_model_runner.py:4338] Model loading took 0.26 GiB memory and 2.712588 seconds
-(EngineCore_DP0 pid=9090) 2026-03-11 01:14:27,490 - INFO - autotuner.py:256 - flashinfer.jit: [Autotuner]: Autotuning process starts ...
-(EngineCore_DP0 pid=9090) INFO 03-11 01:14:27 [decorators.py:465] Directly load AOT compilation from path /home/hngoc/.cache/vllm/torch_compile_cache/torch_aot_compile/7f98f6e26f3f5ce90f00468ec00976ebf109a839f25208b0df73b1f6c52c1422/rank_0_0/model
-(EngineCore_DP0 pid=9090) INFO 03-11 01:14:28 [backends.py:916] Using cache directory: /home/hngoc/.cache/vllm/torch_compile_cache/29621666ad/rank_0_0/backbone for vLLM's torch.compile
-(EngineCore_DP0 pid=9090) INFO 03-11 01:14:28 [backends.py:976] Dynamo bytecode transform time: 1.16 s
-(EngineCore_DP0 pid=9090) INFO 03-11 01:14:29 [backends.py:266] Directly load the compiled graph(s) for compile range (1, 2048) from the cache, took 0.636 s
-(EngineCore_DP0 pid=9090) INFO 03-11 01:14:29 [monitor.py:35] torch.compile takes 1.85 s in total
-(EngineCore_DP0 pid=9090) 2026-03-11 01:14:29,356 - INFO - autotuner.py:262 - flashinfer.jit: [Autotuner]: Autotuning process ends
-(EngineCore_DP0 pid=9090) Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   0%|          | 0/51 [00:00<?, ?it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  22%|██▏       | 11/51 [00:00<00:00, 105.84it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  43%|████▎     | 22/51 [00:00<00:00, 104.59it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  67%|██████▋   | 34/51 [00:00<00:00, 107.81it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  88%|████████▊ | 45/51 [00:00<00:00, 95.70it/s] Capturing CUDA graphs (mixed prefill-decode, PIECEWISE): 100%|██████████| 51/51 [00:00<00:00, 92.95it/s]
-(EngineCore_DP0 pid=9090) INFO 03-11 01:14:30 [gpu_model_runner.py:5360] Graph capturing finished in 1 secs, took 0.08 GiB
-(EngineCore_DP0 pid=9090) INFO 03-11 01:14:30 [core.py:282] init engine (profile, create kv cache, warmup model) took 2.77 seconds
-(EngineCore_DP0 pid=9090) INFO 03-11 01:14:31 [config.py:882] Found sentence-transformers tokenize configuration.
-(EngineCore_DP0 pid=9090) INFO 03-11 01:14:31 [vllm.py:747] Asynchronous scheduling is enabled.
-(APIServer pid=8649) INFO 03-11 01:14:31 [api_server.py:495] Supported tasks: ['embed', 'token_embed']
-(APIServer pid=8649) INFO 03-11 01:14:31 [api_server.py:500] Starting vLLM API server 0 on http://0.0.0.0:8081
-(APIServer pid=8649) INFO 03-11 01:14:31 [launcher.py:38] Available routes are:
-(APIServer pid=8649) INFO 03-11 01:14:31 [launcher.py:47] Route: /openapi.json, Methods: HEAD, GET
-(APIServer pid=8649) INFO 03-11 01:14:31 [launcher.py:47] Route: /docs, Methods: HEAD, GET
-(APIServer pid=8649) INFO 03-11 01:14:31 [launcher.py:47] Route: /docs/oauth2-redirect, Methods: HEAD, GET
-(APIServer pid=8649) INFO 03-11 01:14:31 [launcher.py:47] Route: /redoc, Methods: HEAD, GET
-(APIServer pid=8649) INFO 03-11 01:14:31 [launcher.py:47] Route: /tokenize, Methods: POST
-(APIServer pid=8649) INFO 03-11 01:14:31 [launcher.py:47] Route: /detokenize, Methods: POST
-(APIServer pid=8649) INFO 03-11 01:14:31 [launcher.py:47] Route: /load, Methods: GET
-(APIServer pid=8649) INFO 03-11 01:14:31 [launcher.py:47] Route: /version, Methods: GET
-(APIServer pid=8649) INFO 03-11 01:14:31 [launcher.py:47] Route: /health, Methods: GET
-(APIServer pid=8649) INFO 03-11 01:14:31 [launcher.py:47] Route: /metrics, Methods: GET
-(APIServer pid=8649) INFO 03-11 01:14:31 [launcher.py:47] Route: /v1/models, Methods: GET
-(APIServer pid=8649) INFO 03-11 01:14:31 [launcher.py:47] Route: /ping, Methods: GET
-(APIServer pid=8649) INFO 03-11 01:14:31 [launcher.py:47] Route: /ping, Methods: POST
-(APIServer pid=8649) INFO 03-11 01:14:31 [launcher.py:47] Route: /invocations, Methods: POST
-(APIServer pid=8649) INFO 03-11 01:14:31 [launcher.py:47] Route: /pooling, Methods: POST
-(APIServer pid=8649) INFO 03-11 01:14:31 [launcher.py:47] Route: /v1/embeddings, Methods: POST
-(APIServer pid=8649) INFO 03-11 01:14:31 [launcher.py:47] Route: /score, Methods: POST
-(APIServer pid=8649) INFO 03-11 01:14:31 [launcher.py:47] Route: /v1/score, Methods: POST
-(APIServer pid=8649) INFO 03-11 01:14:31 [launcher.py:47] Route: /rerank, Methods: POST
-(APIServer pid=8649) INFO 03-11 01:14:31 [launcher.py:47] Route: /v1/rerank, Methods: POST
-(APIServer pid=8649) INFO 03-11 01:14:31 [launcher.py:47] Route: /v2/rerank, Methods: POST
-(APIServer pid=8649) INFO:     Started server process [8649]
-(APIServer pid=8649) INFO:     Waiting for application startup.
-(APIServer pid=8649) INFO:     Application startup complete.
-(APIServer pid=8649) INFO:     127.0.0.1:34622 - "GET /v1/models HTTP/1.1" 200 OK
