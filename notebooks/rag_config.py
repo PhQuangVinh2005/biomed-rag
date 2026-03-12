@@ -15,30 +15,62 @@ if project_root not in sys.path:
 from dotenv import load_dotenv
 load_dotenv(os.path.join(project_root, ".env"))
 
-# ============================================================
 # RAG CONFIGURATION (tweak here)
-# ============================================================
-LLM_MAX_TOKENS      = 4096  # prompt + output must stay under model's 8192-token context window
-LLM_TEMPERATURE     = 0.1   # lower = more deterministic output
+LLM_MODEL           = os.environ["LLM_MODEL"]
+LLM_MAX_TOKENS      = 1024     # Match try.ipynb
+LLM_TEMPERATURE     = 0.1
 LLM_TOP_P           = 0.95
-FREQUENCY_PENALTY  = 0.1   # Helps stop repetition loops (e.g. Fanconi Syndrome loop)
-PRESENCE_PENALTY   = 0.1
 
-CHUNK_TOKEN_SIZE    = 900   # Smaller chunks = fewer entities per call = more room for relations
-USE_CUSTOM_ENTITIES = True  # Set to False to use LightRAG defaults
-# ============================================================
+# Repetition penalties disabled (match try.ipynb)
+FREQUENCY_PENALTY   = 0.0
+PRESENCE_PENALTY    = 0.0
+
+CHUNK_TOKEN_SIZE    = 1200     # Match try.ipynb
+USE_CUSTOM_ENTITIES = False
+USE_CUSTOM_PROMPTS  = False    # Switch back to LightRAG defaults (match try.ipynb)
+
+DEBUG_OUTPUT_FILE = 'debug.log' #temp
+
+# ── Custom Prompts ────────────────────────────────────────────────────────────
+
+BIOMED_GRAPH_EXTRACTION_PROMPT = """---Role---
+You are a Biomedical Knowledge Graph Specialist. Your task is to extract entities and concise relationships from medical text.
+
+---Instructions---
+1. **Entity Extraction**:
+   - Identify medical entities (Anatomy, Disease, Gene, etc.).
+   - Format: entity{tuple_delimiter}entity_name{tuple_delimiter}entity_type{tuple_delimiter}concise_description
+
+2. **Relationship Extraction (CRITICAL)**:
+   - Identify direct relationships between entities.
+   - **MAX LENGTH**: Relationship descriptions MUST be shorter than 20 words.
+   - **NO PARAGRAPHS**: Do not summarize large sections into one relationship.
+   - Format: relation{tuple_delimiter}source{tuple_delimiter}target{tuple_delimiter}keywords{tuple_delimiter}concise_description
+
+3. **Strict Delimiter Protocol**:
+   - The {tuple_delimiter} is a literal atomic separator. Do not repeat it or use it within fields.
+   - Output all entities first, then relationships.
+   - End with {completion_delimiter}.
+
+---Data to be Processed---
+<Entity_types>
+{entity_types}
+
+<Output>
+"""
 
 # ── debug logging ─────────────────────────────────────────────────────────────
-DEBUG_LLM        = True   # set False to disable prompt/response logging
-DEBUG_OUTPUT_FILE = os.path.join(project_root, "debug_llm_output.txt")
+DEBUG_LLM         = True   # set False to disable prompt/response logging
+DEBUG_LOG_FILE    = os.path.join(project_root, "debug_llm_output.txt")
 # ─────────────────────────────────────────────────────────────────────────────
 
 # ── from .env ─────────────────────────────────────────────────────────────────
-LLM_MODEL       = os.environ["LLM_MODEL"]
 EMBEDDING_MODEL  = os.environ.get("EMBEDDING_MODEL", "nomic-ai/nomic-embed-text-v1.5")
 LLM_BASE_URL    = os.environ.get("LLM_BASE_URL",  "http://127.0.0.1:8080/v1")
 EMBED_BASE_URL   = os.environ.get("EMBED_BASE_URL", "http://127.0.0.1:8081/v1")
-WORKING_DIR     = os.environ.get("RAG_WORKING_DIR", os.path.join(project_root, "rag_storage"))
+
+# Use local storage inside notebooks/ (mirroring try.ipynb's behavior)
+WORKING_DIR     = os.environ.get("RAG_WORKING_DIR", os.path.join(SCRIPT_DIR, "rag_storage"))
 
 # ── lightrag imports ──────────────────────────────────────────────────────────
 from lightrag.utils import setup_logger, EmbeddingFunc
@@ -59,48 +91,50 @@ async def llm_complete(prompt, system_prompt=None, history_messages=None, **kwar
         "frequency_penalty": FREQUENCY_PENALTY,
         "presence_penalty":  PRESENCE_PENALTY,
     })
-    response = await openai_complete(
+    
+    # Debug logging
+    if DEBUG_LLM:
+        with open(DEBUG_LOG_FILE, "a") as f:
+            f.write("\n=== PROMPT ===\n")
+            f.write(f"SYSTEM: {system_prompt}\n")
+            f.write(f"USER: {prompt}\n")
+        
+    result = await openai_complete(
         prompt,
         system_prompt=system_prompt,
         history_messages=history_messages,
         **kwargs
     )
-
+    
     if DEBUG_LLM:
-        with open(DEBUG_OUTPUT_FILE, "a", encoding="utf-8") as f:
-            f.write("=== PROMPT ===\n")
-            f.write(prompt + "\n")
-            f.write("=== RESPONSE ===\n")
-            f.write(response + "\n")
-            f.write("=================\n\n")
-
-    return response
+        with open(DEBUG_LOG_FILE, "a") as f:
+            f.write("\n=== RESPONSE ===\n")
+            f.write(result)
+            f.write("\n" + "="*50 + "\n")
+        
+    return result
 
 # ── RAG instance ──────────────────────────────────────────────────────────────
 
-# Biomedical entity types — overrides LightRAG's generic defaults
-# (default types cause biological entities to be misclassified as 'artifact')
-BIOMED_ENTITY_TYPES = [
-    "Anatomy",      # organs, tissues, body structures
-    "Disease",      # conditions, disorders, syndromes
-    "Gene",         # genes, DNA sequences
-    "Protein",      # proteins, enzymes, receptors
-    "Chemical",     # small molecules, metabolites, ions
-    "Drug",         # medications, pharmaceuticals
-    "Organism",     # bacteria, viruses, species
-    "Procedure",    # medical/surgical procedures, imaging techniques
-    "Method",       # laboratory methods, experimental techniques
-    "Concept",      # abstract medical/biological concepts
-]
+# Custom entity types if enabled
+BIOMED_ENTITY_TYPES = ["Anatomy", "Biological_Process", "Cell", "Cellular_Component", "Chemical", "Disease", "Gene", "Organism", "Pathway", "Variant"]
 
-def build_rag() -> LightRAG:
-    # Use custom entities only if enabled
+def build_rag(working_dir=WORKING_DIR) -> LightRAG:
+    """Builds and returns a LightRAG instance based on centralized config."""
+    
+    # Use custom entities if toggled
     addon_params = {}
     if USE_CUSTOM_ENTITIES:
         addon_params["entity_types"] = BIOMED_ENTITY_TYPES
+    
+    # Inject Custom Prompt if toggled
+    if USE_CUSTOM_PROMPTS:
+        import lightrag.prompt
+        # Override the system prompt with our length-constrained version
+        lightrag.prompt.PROMPTS["entity_extraction_system_prompt"] = BIOMED_GRAPH_EXTRACTION_PROMPT
 
     return LightRAG(
-        working_dir=WORKING_DIR,
+        working_dir=working_dir,
         llm_model_func=llm_complete,
         llm_model_name=LLM_MODEL,
         llm_model_max_async=4,
